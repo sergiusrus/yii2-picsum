@@ -64,10 +64,16 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $img_id = random_int(1, 1000);
+        $request = Yii::$app->request;
+
+        if ($request->isPost) {
+            $param_image_id = $request->getBodyParam('image-id');
+        }
+
+        $image_id = random_int(1, 1000);
         $client = new Client();
         try {
-            $response = $client->request('GET', "https://picsum.photos/id/$img_id/600/500");
+            $response = $client->request('GET', "https://picsum.photos/id/$image_id/600/500");
             $body = $response->getBody()->getContents();
             $base64 = base64_encode($body);
             $mime = $response->getHeader('content-type')[0];
@@ -75,7 +81,7 @@ class SiteController extends Controller
         } catch (ClientException | ConnectException $e) {
             $image = false;
         }
-        return $this->render('index', compact('image'));
+        return $this->render('index', compact('image', 'image_id'));
     }
 
     /**
