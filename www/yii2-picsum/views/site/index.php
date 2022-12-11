@@ -1,6 +1,7 @@
 <?php
 
 /** @var yii\web\View $this */
+/** @var string|bool $image */
 
 $this->title = 'My Yii Application';
 ?>
@@ -13,16 +14,26 @@ $this->title = 'My Yii Application';
     <div class="body-content">
 
         <div class="row">
-            <div class="my-3">
-                <img src="https://picsum.photos/id/<?= random_int(1, 1000) ?>/600/500"
-                     alt="Random Image"
-                     class="rounded mx-auto d-block">
-            </div>
+            <?php if ($image): ?>
+                <div class="my-3">
+                    <img src="<?= $image ?>"
+                         alt="Random Image"
+                         class="rounded mx-auto d-block">
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-outline-danger mx-2">Отклонить</button>
+                    <button type="button" class="btn btn-outline-success mx-2">Одобрить</button>
+                </div>
+            <?php else: ?>
+                <div class="alert alert-info my-3" role="alert">
+                    Изображение не найдено!
+                    Пожалуйста, перезагруте страницу.
+                </div>
+                <div class="text-center">
+                    <a href="/" class="btn btn-outline-info">Перегрузить</a>
+                </div>
+            <?php endif; ?>
 
-            <div class="text-center">
-                <button type="button" class="btn btn-outline-danger mx-2">Отклонить</button>
-                <button type="button" class="btn btn-outline-success mx-2">Одобрить</button>
-            </div>
 
         
         

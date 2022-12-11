@@ -2,6 +2,9 @@
 
 namespace app\controllers;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -61,7 +64,18 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $img_id = random_int(1, 1000);
+        $client = new Client();
+        try {
+            $response = $client->request('GET', "https://picsum.photos/id/$img_id/600/500");
+            $body = $response->getBody()->getContents();
+            $base64 = base64_encode($body);
+            $mime = $response->getHeader('content-type')[0];
+            $image = ('data:' . $mime . ';base64,' . $base64);
+        } catch (ClientException | ConnectException $e) {
+            $image = false;
+        }
+        return $this->render('index', compact('image'));
     }
 
     /**
