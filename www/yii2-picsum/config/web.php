@@ -47,6 +47,8 @@ $config = [
             'showScriptName' => false,
             // 'enableStrictParsing' => false,
             'rules' => [
+                '' => 'site/index',
+                '<action:(.*)>' => 'site/<action>',
             ],
         ],
     ],
