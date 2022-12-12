@@ -7,7 +7,7 @@ namespace app\models;
  *
  * @see Pic
  */
-class PicsQuery extends \yii\db\ActiveQuery
+class PicQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
