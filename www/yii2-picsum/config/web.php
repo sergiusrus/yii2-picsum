@@ -48,8 +48,13 @@ $config = [
             // 'enableStrictParsing' => false,
             'rules' => [
                 '' => 'site/index',
-                '<action:(.*)>' => 'site/<action>',
+                '<alias:\w+>' => 'site/<alias>',
             ],
+        ],
+    ],
+    'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
         ],
     ],
     'params' => $params,
