@@ -2,6 +2,8 @@
 
 namespace app\modules\admin;
 
+use Yii;
+
 /**
  * admin module definition class
  */
@@ -19,6 +21,7 @@ class Module extends \yii\base\Module
     {
         parent::init();
 
-        // custom initialization code goes here
+        Yii::$app->setLayoutPath('@app/modules/admin/views/layouts');
+        Yii::$app->layout = 'admin';
     }
 }

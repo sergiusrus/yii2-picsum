@@ -40,18 +40,17 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'options' => ['class' => 'navbar-nav'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'Pics', 'url' => ['/admin/pic/']],
             Yii::$app->user->isGuest
                 ? ['label' => 'Login', 'url' => ['/site/login']]
                 : '<li class="nav-item">'
-                    .Html::a('Pics', ['/admin/pic'], ['class' => 'nav-link btn btn-link']).'
-                    </li><li class="nav-item">'
-                    . Html::beginForm(['/site/logout'])
-                    . Html::submitButton(
-                        'Logout (' . Yii::$app->user->identity->username . ')',
-                        ['class' => 'nav-link btn btn-link logout']
-                    )
-                    . Html::endForm()
-                    . '</li>'
+                . Html::beginForm(['/site/logout'])
+                . Html::submitButton(
+                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    ['class' => 'nav-link btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>'
         ]
     ]);
     NavBar::end();
