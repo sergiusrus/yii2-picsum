@@ -27,14 +27,20 @@ $this->title = 'My Yii Application';
                     <?= Html::a('Отклонить',
                         Url::to(['site/index']), [
                                 'data-method' => 'POST',
-                                'data-params' => ['image-id' => $image_id],
+                                'data-params' => [
+                                    'image-id' => $image_id,
+                                    'is-approved' => 0,
+                                ],
                                 'class' => 'btn btn-outline-danger mx-2'
                         ])
                     ?>
                     <?= Html::a('Одобрить',
                         Url::to(['site/index']), [
                                 'data-method' => 'POST',
-                                'data-params' => ['image-id' => $image_id],
+                                'data-params' => [
+                                    'image-id' => $image_id,
+                                    'is-approved' => 1,
+                                ],
                                 'class' => 'btn btn-outline-success mx-2'
                         ])
                     ?>
