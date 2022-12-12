@@ -47,10 +47,10 @@ class Pic extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return PicsQuery the active query used by this AR class.
+     * @return PicQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new PicsQuery(get_called_class());
+        return new PicQuery(get_called_class());
     }
 }
