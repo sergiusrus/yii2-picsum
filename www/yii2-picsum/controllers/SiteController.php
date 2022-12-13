@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Pic;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
@@ -58,11 +59,19 @@ class SiteController extends Controller
     }
 
     /**
+     * @return int
+     */
+    private static function get_random_id(): int
+    {
+        return random_int(1, 1000);
+    }
+
+    /**
      * Displays homepage.
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex(): string
     {
         $request = Yii::$app->request;
 
@@ -70,7 +79,13 @@ class SiteController extends Controller
             $param_image_id = $request->getBodyParam('image-id');
         }
 
-        $image_id = random_int(1, 1000);
+        $image_id = self::get_random_id();
+        $image_ids = Pic::find()->select(['image_id'])->asArray()->column();
+
+        while(in_array($image_id, $image_ids)) {
+            $image_id = self::get_random_id();
+        }
+
         $client = new Client();
         try {
             $response = $client->request('GET', "https://picsum.photos/id/$image_id/600/500");
