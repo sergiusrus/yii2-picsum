@@ -103,6 +103,27 @@ class PicController extends Controller
     }
 
     /**
+     * Updates an existing Pic model.
+     * If update is successful, the browser will be successful message.
+     * @param int $pic_id
+     * @param bool $approval
+     * @return void
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionUpdateApproval(int $pic_id, bool $approval)
+    {
+        if ($model = $this->findModel($pic_id)) {
+            $model->is_approved = $approval;
+
+            if ($model->save()) {
+                exit('OK');
+            } else {
+                exit('Error');
+            }
+        }
+    }
+
+    /**
      * Deletes an existing Pic model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
