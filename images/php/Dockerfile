@@ -3,11 +3,13 @@ FROM php:7.4-fpm
 RUN apt-get update
 RUN apt-get install -y \
         apt-transport-https \
+        nano \
         curl \
         wget \
         git \
         zip \
         unzip \
+        supervisor \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libpng-dev \
@@ -48,5 +50,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 ADD php.ini /usr/local/etc/php/conf.d/40-custom.ini
 
 WORKDIR /var/www
+COPY --chown=www-data:www-data . .
 
-CMD php-fpm
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
