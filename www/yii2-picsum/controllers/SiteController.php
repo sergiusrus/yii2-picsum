@@ -13,6 +13,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\jobs\PicIdSave;
 
 class SiteController extends Controller
 {
@@ -69,34 +70,40 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
-     * @return string
+     * @return string|Response
      */
-    public function actionIndex(): string
+    public function actionIndex()
     {
         $request = Yii::$app->request;
 
         if ($request->isPost) {
-            $param_image_id = $request->getBodyParam('image-id');
-        }
-
-        $image_id = self::get_random_id();
-        $image_ids = Pic::find()->select(['image_id'])->asArray()->column();
-
-        while(in_array($image_id, $image_ids)) {
+            Yii::$app->queue->push(new PicIdSave([
+                'image_id' => $request->getBodyParam('image-id'),
+                'approval' => $request->getBodyParam('approval'),
+            ]));
+            return $this->redirect('/');
+        } else {
             $image_id = self::get_random_id();
+            $image_ids = Pic::find()->select(['image_id'])->asArray()->column();
+
+            while(in_array($image_id, $image_ids)) {
+                $image_id = self::get_random_id();
+            }
+
+            $client = new Client();
+            try {
+                $response = $client->request('GET', "https://picsum.photos/id/$image_id/600/500");
+                $body = $response->getBody()->getContents();
+                $base64 = base64_encode($body);
+                $mime = $response->getHeader('content-type')[0];
+                $image = ('data:' . $mime . ';base64,' . $base64);
+            } catch (ClientException | ConnectException $e) {
+                $image = false;
+            }
+            return $this->render('index', compact('image', 'image_id'));
         }
 
-        $client = new Client();
-        try {
-            $response = $client->request('GET', "https://picsum.photos/id/$image_id/600/500");
-            $body = $response->getBody()->getContents();
-            $base64 = base64_encode($body);
-            $mime = $response->getHeader('content-type')[0];
-            $image = ('data:' . $mime . ';base64,' . $base64);
-        } catch (ClientException | ConnectException $e) {
-            $image = false;
-        }
-        return $this->render('index', compact('image', 'image_id'));
+
     }
 
     /**
