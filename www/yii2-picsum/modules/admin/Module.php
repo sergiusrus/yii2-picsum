@@ -10,6 +10,20 @@ use Yii;
 class Module extends \yii\base\Module
 {
     /**
+     * @inheritDoc
+     */
+    public function behaviors()
+    {
+        return array_merge(
+            parent::behaviors(),
+            [
+                'basicAuth' => [
+                    'class' => \yii\filters\auth\QueryParamAuth::class
+                ],
+            ]
+        );
+    }
+    /**
      * {@inheritdoc}
      */
     public $controllerNamespace = 'app\modules\admin\controllers';
