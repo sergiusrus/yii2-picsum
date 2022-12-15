@@ -29,7 +29,7 @@ $this->title = 'My Yii Application';
                                 'data-method' => 'POST',
                                 'data-params' => [
                                     'image-id' => $image_id,
-                                    'is-approved' => 0,
+                                    'approval' => 0,
                                 ],
                                 'class' => 'btn btn-outline-danger mx-2'
                         ])
@@ -39,7 +39,7 @@ $this->title = 'My Yii Application';
                                 'data-method' => 'POST',
                                 'data-params' => [
                                     'image-id' => $image_id,
-                                    'is-approved' => 1,
+                                    'approval' => 1,
                                 ],
                                 'class' => 'btn btn-outline-success mx-2'
                         ])
