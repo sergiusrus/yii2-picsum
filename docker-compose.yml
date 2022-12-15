@@ -24,6 +24,8 @@ services:
             - postgres
         volumes:
            - ./www:/var/www
+           - ./images/php/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+        command: ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
         networks:
            app:
 
