@@ -19,6 +19,7 @@
 * Yii2
 * PostgresSQL
 * Nginx
+* Supervisor
 
 ### Разворачивание проекта
 * Запустить файл deploy.sh
